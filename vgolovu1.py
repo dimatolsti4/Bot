@@ -18,8 +18,6 @@ air_timer = 0
 
 CHUNK_SIZE = 8
 
-global animation_frames
-animation_frames = {}
 
 blocks = []
 
