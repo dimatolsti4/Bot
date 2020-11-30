@@ -76,3 +76,4 @@ else:
     pygame.display.set_mode(0)
     pygame.quit()
     exit(0)
+'sasad'
