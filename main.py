@@ -8,7 +8,7 @@ FPS = 60
 
 screen = pygame.display.set_mode(WINDOW_SIZE,0,32)
 
-display = pygame.Surface((300,200))
+display = pygame.Surface(WINDOW_SIZE)
 
 blocks = create_map()
 player = character()
