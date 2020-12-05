@@ -99,7 +99,7 @@ def were_to_go(k, bl, display):
 '''
 
 
-def draw(c, display):
+def draw_p(c, display):
     if c == 0:
         circle(display, (255, 0, 255), (Character.x, Character.y), 5)
     else:
