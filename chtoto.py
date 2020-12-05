@@ -1,4 +1,4 @@
-class character:
+class Character:
 
     def __init__(self):
         self.x = 200
@@ -17,7 +17,7 @@ class character:
         rect(display, self.color, (self.x, self.y, self.x_size, self.y_size))
 
 
-class block():
+class Block():
 
     def __init__(self, color, hp, breakable, loot):
         self.color = color
