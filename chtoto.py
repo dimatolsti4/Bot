@@ -23,8 +23,7 @@ class block():
         self.hp = hp
         self.breakable = breakable
         self.loot = loot # ochkov
-        self.size_x = 50
-        self.size_y = 50
+        self.size = 50
 
     def create(self, x, y):
         self.x = x
@@ -32,7 +31,7 @@ class block():
 
     def draw(self):
         global display
-        rect(display, self.color, (self.x, self.y, self.x_size, self.y_size)))
+        rect(display, self.color, (self.x, self.y, self.size, self.size)))
 
     def kill(self, blocks):
         blocks.remove(self)
@@ -48,6 +47,6 @@ def create_map():
     for i in range(0, 9):
         for j in range(2, 7):
             block = block(color_green, 10, True, 10)
-            block.create(i * block.size_x, j * block.size_y)
+            block.create(i * block.size, j * block.size)
             blocks.append(block)
     return blocks
