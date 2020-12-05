@@ -67,5 +67,4 @@ while not finished:
     for block in blocks:
         block.draw()
     pygame.display.update()    
-    time += 1
 pygame.quit()
