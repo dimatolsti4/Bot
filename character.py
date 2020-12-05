@@ -88,17 +88,22 @@ blocks - массив блоков
 def were_to_go(k, bl, display):
     if k == 'left' and checking_step_capability(Character.x - Character.vx, Character.y, bl):
         Character.x -= Character.vx
-        circle(display, (255, 0, 255), (Character.x, Character.y), 5)
     if k == 'right' and checking_step_capability(Character.x + Character.vx, Character.y, bl):
         Character.x += Character.vx
-        circle(display, (255, 0, 255), (Character.x, Character.y), 5)
     if k == 'jump':
-        Character.vy = -15
+        Character.vy = -10
 
 
 '''
 Функция задаёт, что делает герой при нажатии на кнопки клавиатуры
 '''
+
+
+def draw(c, display):
+    if c == 0:
+        circle(display, (255, 0, 255), (Character.x, Character.y), 5)
+    else:
+        rect(display, (155, 100, 255), (Character.x, Character.y, 5, 5))
 
 
 def what_to_do(event, bl, display):
