@@ -1,5 +1,5 @@
 import pygame
-from game_objects import Blocks, Character
+from chtoto import Blocks, Character
 from pygame.draw import *
 
 
