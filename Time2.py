@@ -1,33 +1,22 @@
-from tkinter import Tk, Label, Button
+import pygame
+pygame.init()
+screen = pygame.display.set_mode((128, 128))
+clock = pygame.time.Clock()
 
-time_running = False  # запущен ли
-default_seconds = 300  # всего
-time_seconds = default_seconds  # текущее время
+counter, text = 10, '10'.rjust(3)
+pygame.time.set_timer(pygame.USEREVENT, 1000)
+font = pygame.font.SysFont('Consolas', 30)
 
-def time_start_pause():
-    global time_running
-    time_running = not time_running  # пауза или нет
-    if time_running:  # нет
-        timer_tick()
-
-def time_tick():
-    if time_running and time_seconds:
-        label.after(1000, timer_tick)  # уменьшить время
-        global time_seconds
-        time_seconds -= 1
-        show_time()
-
-def show_time():
-    m = time_seconds//60
-    s = time_seconds-m*60
-    label['text'] = (m, s)
-
-if __name__ == '__main__':
-    root = Tk()
-    label = Label(root)
-    label.pack()
-    Button(root, text='pause', command=time_start_pause).pack()  # пауза
-
-
-    time_reset()
-    root.mainloop()
+while True:
+    for e in pygame.event.get():
+        if e.type == pygame.USEREVENT:
+            counter -= 1
+            text = str(counter).rjust(3) if counter > 0 else 'Finish!'
+        if e.type == pygame.QUIT: break
+    else:
+        screen.fill((255, 255, 255))
+        screen.blit(font.render(text, True, (0, 0, 0)), (32, 48))
+        pygame.display.flip()
+        clock.tick(60)
+        continue
+    break
