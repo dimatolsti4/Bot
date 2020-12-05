@@ -17,7 +17,7 @@ class Character:
         rect(display, self.color, (self.x, self.y, self.x_size, self.y_size))
 
 
-class Block():
+class Blocks():
 
     def __init__(self, color, hp, breakable, loot):
         self.color = color
