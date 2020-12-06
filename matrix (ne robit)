@@ -2,240 +2,229 @@ import numpy as np
 import random
 
 def create_map():
-    A = np.random.randint(0, 3, (101))
+    A = np.random.randint(0, 3, (121))
     A[1] = 4
-    A[10] = 4
-    A[11] = 4
-    A[20] = 4
-    A[21] = 4
-    A[30] = 4
-    A[31] = 4
-    A[40] = 4
-    A[41] = 4
-    A[50] = 4
-    A[51] = 4
+    A[12] = 4
+    A[13] = 4
+    A[24] = 4
+    A[25] = 4
+    A[36] = 4
+    A[37] = 4
+    A[48] = 4
+    A[49] = 4
     A[60] = 4
     A[61] = 4
-    A[70] = 4
-    A[71] = 4
-    A[80] = 4
-    A[81] = 4
-    A[90] = 4
-    A[91] = 4
-    A[100] = 4
+    A[72] = 4
+    A[73] = 4
+    A[84] = 4
+    A[85] = 4
+    A[96] = 4
 
-    for i in range (1, 101):
-        if 1 <= i <= 11:
+    for i in range(1, 121):
+        if 25 <= i <= 36:
             if A[i] == 0:
                 block = Block(color_green, 10, True, 10)
-                block.create(i * block.size, 1 * block.size)
+                block.create(i * block.size, 3 * block.size)
                 blocks.append(block)
             else:
                 if A[i] == 1:
                     block = Block(color_green, 10, True, 10)
-                    block.create(i * block.size, 1 * block.size)
+                    block.create(i * block.size, 3 * block.size)
+                    blocks.append(block)
+            else:
+                if A[i] == 2:
+                    block = Block(color_green, 10, True, 10)
+                    block.create(i * block.size, 3 * block.size)
+                    blocks.append(block)
+                else:
+                    if A[i] == 3:
+                        block = Block(color_green, 10, True, 10)
+                        block.create(i * block.size, 3 * block.size)
+                        blocks.append(block)
+                    else:
+                        if A[i] == 4:
+                            block = Block(color_green, 10, True, 10)
+                            block.create(i * block.size, 3 * block.size)
+                            blocks.append(block)
+        else:
+        if 37 <= i <= 48:
+            if A[i] == 0:
+                block = Block(color_green, 10, True, 10)
+                block.create(i * block.size, 4 * block.size)
+                blocks.append(block)
+            else:
+                if A[i] == 1:
+                    block = Block(color_green, 10, True, 10)
+                    block.create(i * block.size, 4 * block.size)
                     blocks.append(block)
                 else:
                     if A[i] == 2:
                         block = Block(color_green, 10, True, 10)
-                        block.create(i * block.size, 1 * block.size)
+                        block.create(i * block.size, 4 * block.size)
                         blocks.append(block)
                     else:
                         if A[i] == 3:
                             block = Block(color_green, 10, True, 10)
-                            block.create(i * block.size, 1 * block.size)
+                            block.create(i * block.size, 4 * block.size)
                             blocks.append(block)
                         else:
                             if A[i] == 4:
                                 block = Block(color_green, 10, True, 10)
-                                block.create(i * block.size, 1 * block.size)
+                                block.create(i * block.size, 4 * block.size)
                                 blocks.append(block)
         else:
-            if 11 <= i <= 21:
+            if 49 <= i <= 60:
                 if A[i] == 0:
                     block = Block(color_green, 10, True, 10)
-                    block.create(i * block.size, 2 * block.size)
+                    block.create(i * block.size, 5 * block.size)
+                    blocks.append(block)
                 else:
                     if A[i] == 1:
                         block = Block(color_green, 10, True, 10)
-                        block.create(i * block.size, 2 * block.size)
+                        block.create(i * block.size, 5 * block.size)
+                        blocks.append(block)
                     else:
                         if A[i] == 2:
                             block = Block(color_green, 10, True, 10)
-                            block.create(i * block.size, 2 * block.size)
+                            block.create(i * block.size, 5 * block.size)
+                            blocks.append(block)
                         else:
                             if A[i] == 3:
                                 block = Block(color_green, 10, True, 10)
-                                block.create(i * block.size, 2 * block.size)
+                                block.create(i * block.size, 5 * block.size)
+                                blocks.append(block)
                             else:
                                 if A[i] == 4:
                                     block = Block(color_green, 10, True, 10)
-                                    block.create(i * block.size, 2 * block.size)
+                                    block.create(i * block.size, 5 * block.size)
+                                    blocks.append(block)
             else:
-                if 21 <= i <= 31:
+                if 61 <= i <= 72:
                     if A[i] == 0:
                         block = Block(color_green, 10, True, 10)
-                        block.create(i * block.size, 3 * block.size)
+                        block.create(i * block.size, 6 * block.size)
+                        blocks.append(block)
                     else:
                         if A[i] == 1:
                             block = Block(color_green, 10, True, 10)
-                            block.create(i * block.size, 3 * block.size)
+                            block.create(i * block.size, 6 * block.size)
+                            blocks.append(block)
                         else:
                             if A[i] == 2:
                                 block = Block(color_green, 10, True, 10)
-                                block.create(i * block.size, 3 * block.size)
+                                block.create(i * block.size, 6 * block.size)
+                                blocks.append(block)
                             else:
                                 if A[i] == 3:
                                     block = Block(color_green, 10, True, 10)
-                                    block.create(i * block.size, 3 * block.size)
+                                    block.create(i * block.size, 6 * block.size)
+                                    blocks.append(block)
                                 else:
                                     if A[i] == 4:
                                         block = Block(color_green, 10, True, 10)
-                                        block.create(i * block.size, 3 * block.size)
+                                        block.create(i * block.size, 6 * block.size)
+                                        blocks.append(block)
                 else:
-                    if 31 <= i <= 41:
+                    if 73 <= i <= 84:
                         if A[i] == 0:
                             block = Block(color_green, 10, True, 10)
-                            block.create(i * block.size, 4 * block.size)
+                            block.create(i * block.size, 7 * block.size)
+                            blocks.append(block)
                         else:
                             if A[i] == 1:
                                 block = Block(color_green, 10, True, 10)
-                                block.create(i * block.size, 4 * block.size)
+                                block.create(i * block.size, 7 * block.size)
+                                blocks.append(block)
                             else:
                                 if A[i] == 2:
                                     block = Block(color_green, 10, True, 10)
-                                    block.create(i * block.size, 4 * block.size)
+                                    block.create(i * block.size, 7 * block.size)
+                                    blocks.append(block)
                                 else:
                                     if A[i] == 3:
                                         block = Block(color_green, 10, True, 10)
-                                        block.create(i * block.size, 4 * block.size)
+                                        block.create(i * block.size, 7 * block.size)
+                                        blocks.append(block)
                                     else:
                                         if A[i] == 4:
                                             block = Block(color_green, 10, True, 10)
-                                            block.create(i * block.size, 4 * block.size)
+                                            block.create(i * block.size, 7 * block.size)
+                                            blocks.append(block)
                     else:
-                        if 41 <= i <= 51:
+                        if 85 <= i <= 96:
                             if A[i] == 0:
                                 block = Block(color_green, 10, True, 10)
-                                block.create(i * block.size, 5 * block.size)
+                                block.create(i * block.size, 8 * block.size)
+                                blocks.append(block)
                             else:
                                 if A[i] == 1:
                                     block = Block(color_green, 10, True, 10)
-                                    block.create(i * block.size, 5 * block.size)
+                                    block.create(i * block.size, 8 * block.size)
+                                    blocks.append(block)
                                 else:
                                     if A[i] == 2:
                                         block = Block(color_green, 10, True, 10)
-                                        block.create(i * block.size, 5 * block.size)
+                                        block.create(i * block.size, 8 * block.size)
+                                        blocks.append(block)
                                     else:
                                         if A[i] == 3:
                                             block = Block(color_green, 10, True, 10)
-                                            block.create(i * block.size, 5 * block.size)
+                                            block.create(i * block.size, 8 * block.size)
+                                            blocks.append(block)
                                         else:
                                             if A[i] == 4:
                                                 block = Block(color_green, 10, True, 10)
-                                                block.create(i * block.size, 5 * block.size)
+                                                block.create(i * block.size, 8 * block.size)
+                                                blocks.append(block)
                         else:
-                            if 51 <= i <= 61:
+                            if 97 <= i <= 108:
                                 if A[i] == 0:
                                     block = Block(color_green, 10, True, 10)
-                                    block.create(i * block.size, 6 * block.size)
+                                    block.create(i * block.size, 9 * block.size)
+                                    blocks.append(block)
                                 else:
                                     if A[i] == 1:
                                         block = Block(color_green, 10, True, 10)
-                                        block.create(i * block.size, 6 * block.size)
+                                        block.create(i * block.size, 9 * block.size)
+                                        blocks.append(block)
                                     else:
                                         if A[i] == 2:
                                             block = Block(color_green, 10, True, 10)
-                                            block.create(i * block.size, 6 * block.size)
+                                            block.create(i * block.size, 9 * block.size)
+                                            blocks.append(block)
                                         else:
                                             if A[i] == 3:
                                                 block = Block(color_green, 10, True, 10)
-                                                block.create(i * block.size, 6 * block.size)
+                                                block.create(i * block.size, 9 * block.size)
+                                                blocks.append(block)
                                             else:
                                                 if A[i] == 4:
                                                     block = Block(color_green, 10, True, 10)
-                                                    block.create(i * block.size, 6 * block.size)
+                                                    block.create(i * block.size, 9 * block.size)
+                                                    blocks.append(block)
                             else:
-                                if 61 <= i <= 71:
+                                if 109 <= i <= 120:
                                     if A[i] == 0:
                                         block = Block(color_green, 10, True, 10)
-                                        block.create(i * block.size, 7 * block.size)
+                                        block.create(i * block.size, 10 * block.size)
+                                        blocks.append(block)
                                     else:
                                         if A[i] == 1:
                                             block = Block(color_green, 10, True, 10)
-                                            block.create(i * block.size, 7 * block.size)
+                                            block.create(i * block.size, 10 * block.size)
+                                            blocks.append(block)
                                         else:
                                             if A[i] == 2:
                                                 block = Block(color_green, 10, True, 10)
-                                                block.create(i * block.size, 7 * block.size)
+                                                block.create(i * block.size, 10 * block.size)
+                                                blocks.append(block)
                                             else:
                                                 if A[i] == 3:
                                                     block = Block(color_green, 10, True, 10)
-                                                    block.create(i * block.size, 7 * block.size)
+                                                    block.create(i * block.size, 10 * block.size)
+                                                    blocks.append(block)
                                                 else:
                                                     if A[i] == 4:
                                                         block = Block(color_green, 10, True, 10)
-                                                        block.create(i * block.size, 7 * block.size)
-                                else:
-                                    if 71 <= i <= 81:
-                                        if A[i] == 0:
-                                            block = Block(color_green, 10, True, 10)
-                                            block.create(i * block.size, 8 * block.size)
-                                        else:
-                                            if A[i] == 1:
-                                                block = Block(color_green, 10, True, 10)
-                                                block.create(i * block.size, 8 * block.size)
-                                            else:
-                                                if A[i] == 2:
-                                                    block = Block(color_green, 10, True, 10)
-                                                    block.create(i * block.size, 8 * block.size)
-                                                else:
-                                                    if A[i] == 3:
-                                                        block = Block(color_green, 10, True, 10)
-                                                        block.create(i * block.size, 8 * block.size)
-                                                    else:
-                                                        if A[i] == 4:
-                                                            block = Block(color_green, 10, True, 10)
-                                                            block.create(i * block.size, 8 * block.size)
-                                    else:
-                                        if 81 <= i <= 91:
-                                            if A[i] == 0:
-                                                block = Block(color_green, 10, True, 10)
-                                                block.create(i * block.size, 9 * block.size)
-                                            else:
-                                                if A[i] == 1:
-                                                    block = Block(color_green, 10, True, 10)
-                                                    block.create(i * block.size, 9 * block.size)
-                                                else:
-                                                    if A[i] == 2:
-                                                        block = Block(color_green, 10, True, 10)
-                                                        block.create(i * block.size, 9 * block.size)
-                                                    else:
-                                                        if A[i] == 3:
-                                                            block = Block(color_green, 10, True, 10)
-                                                            block.create(i * block.size, 9 * block.size)
-                                                        else:
-                                                            if A[i] == 4:
-                                                                block = Block(color_green, 10, True, 10)
-                                                                block.create(i * block.size, 9 * block.size)
-                                        else:
-                                            if 91 <= i <= 101:
-                                                if A[i] == 0:
-                                                    block = Block(color_green, 10, True, 10)
-                                                    block.create(i * block.size, 10 * block.size)
-                                                else:
-                                                    if A[i] == 1:
-                                                        block = Block(color_green, 10, True, 10)
                                                         block.create(i * block.size, 10 * block.size)
-                                                    else:
-                                                        if A[i] == 2:
-                                                            block = Block(color_green, 10, True, 10)
-                                                            block.create(i * block.size, 10 * block.size)
-                                                        else:
-                                                            if A[i] == 3:
-                                                                block = Block(color_green, 10, True, 10)
-                                                                block.create(i * block.size, 10 * block.size)
-                                                            else:
-                                                                if A[i] == 4:
-                                                                    block = Block(color_green, 10, True, 10)
-                                                                    block.create(i * block.size, 10 * block.size)
+                                                        blocks.append(block)
