@@ -37,12 +37,12 @@ class Blocks():
         global display
         rect(display, self.color, (self.x, self.y, self.size, self.size)))
 
-        def kill(self, blocks):
-            blocks.remove(self)
+    def kill(self, blocks):
+        blocks.remove(self)
 
-        def damage(self):
-            if self.breakable == True:
-                self.hp -= 1
+    def damage(self):
+        if self.breakable == True:
+            self.hp -= 1
 
 
 def create_map():
