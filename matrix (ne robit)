@@ -27,23 +27,23 @@ def create_map():
     for i in range (1, 101):
         if 1 <= i <= 11:
             if A[i] == 0:
-                block = block(color_green, 10, True, 10)
+                block = A(color_green, 10, True, 10)
                 block.create(i * block.size, 1 * block.size)
             else:
                 if A[i] == 1:
-                    block = block(color_green, 10, True, 10)
+                    block = A(color_green, 10, True, 10)
                     block.create(i * block.size, 1 * block.size)
                 else:
                     if A[i] == 2:
-                        block = block(color_green, 10, True, 10)
+                        block = A(color_green, 10, True, 10)
                         block.create(i * block.size, 1 * block.size)
                     else:
                         if A[i] == 3:
-                            block = block(color_green, 10, True, 10)
+                            block = A(color_green, 10, True, 10)
                             block.create(i * block.size, 1 * block.size)
                         else:
                             if A[i] == 4:
-                                block = block(color_green, 10, True, 10)
+                                block = A(color_green, 10, True, 10)
                                 block.create(i * block.size, 1 * block.size)
         else:
             if 11 <= i <= 21:
