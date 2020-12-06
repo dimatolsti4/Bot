@@ -2,11 +2,8 @@ import numpy as np
 import random
 
 def create_map():
-    A = np.random.randint(0, 3, (121))
-    A[1] = 4
-    A[12] = 4
-    A[13] = 4
-    A[24] = 4
+    A = np.random.randint(0, 3, (120))
+
     A[25] = 4
     A[36] = 4
     A[37] = 4
@@ -19,7 +16,8 @@ def create_map():
     A[84] = 4
     A[85] = 4
     A[96] = 4
-
+    A[97] = 4
+    
     for i in range(1, 121):
         if 25 <= i <= 36:
             if A[i] == 0:
@@ -223,8 +221,4 @@ def create_map():
                                                     block = Block(color_green, 10, True, 10)
                                                     block.create(i * block.size, 10 * block.size)
                                                     blocks.append(block)
-                                                else:
-                                                    if A[i] == 4:
-                                                        block = Block(color_green, 10, True, 10)
-                                                        block.create(i * block.size, 10 * block.size)
-                                                        blocks.append(block)
+
