@@ -30,21 +30,21 @@ def create_map():
                     block = Block(color_green, 10, True, 10)
                     block.create(i * block.size, 3 * block.size)
                     blocks.append(block)
-            else:
-            if A[i] == 2:
-                block = Block(color_green, 10, True, 10)
-                block.create(i * block.size, 3 * block.size)
-                blocks.append(block)
-            else:
-                if A[i] == 3:
-                    block = Block(color_green, 10, True, 10)
-                    block.create(i * block.size, 3 * block.size)
-                    blocks.append(block)
                 else:
-                    if A[i] == 4:
+                    if A[i] == 2:
                         block = Block(color_green, 10, True, 10)
                         block.create(i * block.size, 3 * block.size)
                         blocks.append(block)
+                    else:
+                        if A[i] == 3:
+                            block = Block(color_green, 10, True, 10)
+                            block.create(i * block.size, 3 * block.size)
+                            blocks.append(block)
+                        else:
+                            if A[i] == 4:
+                                block = Block(color_green, 10, True, 10)
+                                block.create(i * block.size, 3 * block.size)
+                                blocks.append(block)
         else:
             if 37 <= i <= 48:
                 if A[i] == 0:
