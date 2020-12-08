@@ -11,7 +11,7 @@ pygame.init()
 screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
 # display = pygame.Surface(WINDOW_SIZE)
 
-blocks = create_map()# fix me
+blocks = create_map(WINDOW_SIZE)# fix me
 
 #blocks = create_map(WINDOW_SIZE)
 
@@ -66,7 +66,6 @@ while not finished:
             were_to_go('right', blocks, screen)
         if Character.jump:
             up_jump(blocks, screen)
-            print (Character.jump)
         fall(blocks, screen)
         draw_p(screen)
     else:
