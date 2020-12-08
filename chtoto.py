@@ -56,13 +56,22 @@ class Block():
             self.hp -= 1
 
 
-def create_map(num_lines, num_col, offset=2):
+def create_map(window_size, offset=2):
     blocks = []
+    num_lines = window_size[0] // Block.size
+    num_col = window_size[1] // Block.size
+    
     color_green = (0, 255, 0)
+    color_teal = (0, 128, 128)
+    color_black = (0, 0, 0)
+    color_yellow = (255, 255, 0)
+    color_violet = (230, 130, 230)
+    color_AntiqueWhite = (250, 235, 215)
+    
     A = np.random.randint(0, 3, (num_lines, num_col))
 		
     for i in range(num_col):
-      A[offset][i] = 5
+      A[0][i] = 5
       A[-1][i] = 4
       
     for i in range(num_lines):
@@ -72,9 +81,9 @@ def create_map(num_lines, num_col, offset=2):
     
     for i in range(num_lines):
         for j in range(num_col):
-          	block = None
+            block = None
             y_position = j + offset
-            x, y = (i * block.size, y_position * block.size)
+            x, y = (i * Block.size, y_position * Block.size)
             
             if A[i][j] == 0:
                 block = Block(color_teal, 10, True, 10, x, y)   
@@ -86,9 +95,19 @@ def create_map(num_lines, num_col, offset=2):
                 block = Block(color_AntiqueWhite, 10, True, 10, x, y)
             elif A[i][j] == 4:
                 block = Block(color_black, 10, True, 10, x, y)
-          	elif A[i][j] == 5:
+            elif A[i][j] == 5:
                 block = Block(color_green, 10, True, 10, x, y)
               
             blocks.append(block)
 
     return blocks
+
+
+'''def create_map(window_size):
+    blocks = []
+    for i in range(0, window_size[0] // Block.size):
+        for j in range(2, window_size[1] // Block.size):
+            block = Block(COLOR['yellow'], 10, True, 10, i * Block.size, j * Block.size)
+            blocks.append(block)
+    return blocks
+'''
