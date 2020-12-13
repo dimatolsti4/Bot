@@ -95,6 +95,9 @@ def break_block(pos, x, y, blocks):
                 return False
     return False
 
+def dist(x1, y1, x2, y2):
+    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** .5
+
 
 def length(pos, x, y, a):
     '''
@@ -159,13 +162,13 @@ def were_to_go(k, bl, display):
 
 def draw_p(screen, image):
     if image == 0:
-        screen.blit(flip(Character.player_surface_Static, Character.orientation, False), (Character.x, Character.y))
+        screen.blit(flip(Character.player_surface_Static, Character.orientation, False), (Character.x, screen.get_height()//2))
     if image == 1:
-        screen.blit(flip(Character.player_surface_Going, Character.orientation, False), (Character.x, Character.y))
+        screen.blit(flip(Character.player_surface_Going, Character.orientation, False), (Character.x, screen.get_height()//2))
     if image == 2:
-        screen.blit(flip(Character.player_surface_Eating, Character.orientation, False), (Character.x, Character.y))
+        screen.blit(flip(Character.player_surface_Eating, Character.orientation, False), (Character.x, screen.get_height()//2))
     if image == 3:
-        screen.blit(flip(Character.player_surface_Jumping, Character.orientation, False), (Character.x, Character.y))
+        screen.blit(flip(Character.player_surface_Jumping, Character.orientation, False), (Character.x, screen.get_height()//2))
 
 
 def draw(screen, phase_1, phase_2):

@@ -60,7 +60,7 @@ class Block():
 
     def damage(self):
         if self.breakable == True:
-            self.hp -= 1
+            self.hp -= 5
 
 
 def create_map():
