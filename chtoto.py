@@ -9,17 +9,23 @@ COLOR = {
     'green': (0, 255, 0),
     'yellow': (255, 255, 0)
 }
-PLAYER_PATH = 'src/player.jpg'
-PLAYER_SRC = load(PLAYER_PATH)
+PLAYER_PATH_Static = 'src/Static.png'
+PLAYER_PATH_Going = 'src/Going.png'
+PLAYER_PATH_Eating = 'src/Eating.png'
+PLAYER_PATH_Jumping = 'src/Jumping.png'
+PLAYER_SRC_Static = load(PLAYER_PATH_Static)
+PLAYER_SRC_Going = load(PLAYER_PATH_Going)
+PLAYER_SRC_Eating = load(PLAYER_PATH_Eating)
+PLAYER_SRC_Jumping = load(PLAYER_PATH_Jumping)
 
-SCALE = 0.1
+SCALE = 0.11
 
 
 class Character:
     x = 200
-    y = 75
+    y = 50
     vy = 0
-    vx = 3
+    vx = 2
     g = 1
     hp = 10
 
@@ -31,7 +37,18 @@ class Character:
 
     color = (255, 255, 255)
 
-    player_surface = scale(PLAYER_SRC, (int(PLAYER_SRC.get_width() * SCALE), int(PLAYER_SRC.get_height() * SCALE)))
+    player_surface_Static = scale(PLAYER_SRC_Static, (
+    int(PLAYER_SRC_Static.get_width() * SCALE), int(PLAYER_SRC_Static.get_height() * SCALE)))
+    player_surface_Going = scale(PLAYER_SRC_Going, (
+    int(PLAYER_SRC_Going.get_width() * SCALE), int(PLAYER_SRC_Going.get_height() * SCALE)))
+    player_surface_Eating = scale(PLAYER_SRC_Eating, (
+    int(PLAYER_SRC_Eating.get_width() * SCALE), int(PLAYER_SRC_Eating.get_height() * SCALE)))
+    player_surface_Jumping = scale(PLAYER_SRC_Jumping, (
+    int(PLAYER_SRC_Jumping.get_width() * SCALE), int(PLAYER_SRC_Jumping.get_height() * SCALE)))
+
+    height_no_jump = player_surface_Static.get_height()
+    width_no_jump = player_surface_Static.get_width()
+    height_jump = player_surface_Jumping.get_height()
 
 
 '''def draw(self):
@@ -60,7 +77,7 @@ class Block():
 
     def damage(self):
         if self.breakable == True:
-            self.hp -= 1
+            self.hp -= 5
 
 
 def create_map():
@@ -72,7 +89,7 @@ def create_map():
     A[12] = 4
     A[13] = 4
     A[24] = 4
-    A[25] = 4   
+    A[25] = 4
     A[36] = 4
     A[37] = 4
     A[48] = 4
@@ -86,7 +103,8 @@ def create_map():
     A[96] = 4
     A[97] = 4
 
-    for i in range(0, 120):
+
+'''    for i in range(0, 120):
         if 0 <= i <= 13:
             if A[i] == 0:
                 block = Block(color_green, 10, True, 10)
@@ -290,9 +308,10 @@ def create_map():
                                                         block.create( (i-85) * block.size, 10 * block.size)
                                                         blocks.append(block)
     return blocks
+'''
 
 
-'''def create_map(window_size):
+def create_map(window_size):
     blocks = []
     block = Block(COLOR['yellow'], 10, True, 10)
     block.create(2 * block.size, 1 * block.size)
@@ -302,4 +321,4 @@ def create_map():
             block = Block(COLOR['yellow'], 10, True, 10)
             block.create(i * block.size, j * block.size)
             blocks.append(block)
-    return blocks'''
+    return blocks
