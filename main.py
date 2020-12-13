@@ -27,6 +27,8 @@ while not finished:
     screen.fill(255)
     clock.tick(FPS)
 
+
+
     """except BaseException as e:
         print(str(e))
         break"""
@@ -74,6 +76,7 @@ while not finished:
             were_to_go('right', blocks, screen)
         if Character.jump:
             up_jump(blocks, screen)
+            print (Character.jump)
         fall(blocks, screen)
         phase_1 += 1
         if Character.jump:
