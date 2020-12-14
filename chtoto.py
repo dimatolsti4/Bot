@@ -27,14 +27,14 @@ SCALE = 0.11
 SRC_PATH = 'src/'
 BLOCKS_PATH = SRC_PATH + "blocks/"
 
-
 OS_BLOCK_PATH = getcwd() + "\\" + BLOCKS_PATH.replace("/", "\\")[:-1]
 
 BLOCK_NAMES = [f[:-4] for f in listdir(OS_BLOCK_PATH) if isfile(join(OS_BLOCK_PATH, f))]
 
 BLOCKS_SRC = {
-    name:scale(load(BLOCKS_PATH + name + ".png"), (BLOCK_SIZE, BLOCK_SIZE)) for name in BLOCK_NAMES
+    name: scale(load(BLOCKS_PATH + name + ".png"), (BLOCK_SIZE, BLOCK_SIZE)) for name in BLOCK_NAMES
 }
+
 
 class Character:
     x = 200
@@ -75,15 +75,16 @@ class Character:
 class Block():
     size = BLOCK_SIZE
 
-    def __init__(self, name, hp, breakable, loot, x, y, passable=False):
+    def __init__(self, name, hp, breakable, loot, x, y, use, passable=False):
         self.id = name
 
-        self.img = BLOCKS_SRC[name]
+        self.img = BLOCKS_SRC[self.id]
         self.hp = hp
         self.breakable = breakable
         self.loot = loot  # ochkov
         self.x = x
         self.y = y
+        self.use = use
 
     def create(self, x, y):
         self.x = x
@@ -98,7 +99,13 @@ class Block():
 
     def damage(self):
         if self.breakable == True:
-            self.hp -= 5
+            self.hp -= 1
+            if self.id == "bamboo":
+                self.img = BLOCKS_SRC["$$$bamboo_break"]
+            if self.id == "bambooo":
+                self.img = BLOCKS_SRC["$$$bambooo_break"]
+            if self.id == "diamond":
+                self.img = BLOCKS_SRC["$$$diamond_break"]
 
 
 def create_map(window_size, offset=2):
@@ -111,8 +118,8 @@ def create_map(window_size, offset=2):
     for i in range(-4, num_col):
         y_position = i + offset
         x_start, y, x_end = -1 * BLOCK_SIZE, y_position * BLOCK_SIZE, num_lines * BLOCK_SIZE
-        blocks.append(Block("$bedrock", 1, False, 1, x_start, y))
-        blocks.append(Block("$bedrock", 1, False, 1, x_end, y))
+        blocks.append(Block("$bedrock", 1, False, 1, x_start, y, 0))
+        blocks.append(Block("$bedrock", 1, False, 1, x_end, y, 0))
 
     for i in range(num_lines):
         for j in range(num_col + 4):
@@ -120,12 +127,12 @@ def create_map(window_size, offset=2):
             x, y = i * BLOCK_SIZE, y_position * BLOCK_SIZE
 
             if j == num_col - 1:
-                block = Block("$bedrock", 1, False, 1, x, y)
+                block = Block("$bedrock", 1, False, 1, x, y, 0)
             elif j >= num_col:
-                block = Block("$under_bedrock", 1, False, 1, x, y)
+                block = Block("$under_bedrock", 1, False, 1, x, y, 0)
             else:
                 name = BLOCK_NAMES[randint(BLOCK_NAMES.index("$under_bedrock") + 1, len(BLOCK_NAMES) - 1)]
-                block = Block(name, 1, True, 10, x, y)
+                block = Block(name, 70, True, 10, x, y, 0)
             """
             if A[i][j] == 0:
                 block = Block(COLOR['teal'], 10, True, 10, x, y)   
@@ -141,19 +148,7 @@ def create_map(window_size, offset=2):
                 block = Block(COLOR['green'], 10, True, 10, x, y)
             """
             if (randint(0, 10) > 7):
-                blocks.append(Block("$$liana", 1, False, 1, x, y, True))
+                blocks.append(Block("$$liana", 1, False, 1, x, y, 0, True))
             blocks.append(block)
 
     return blocks
-
-
-'''def create_map(window_size):
-    blocks = []
-    block = Block(COLOR['yellow'], 10, True, 10)
-    block.create(2 * block.size, 1 * block.size)
-    blocks.append(block)
-    for i in range(0, window_size[0] // Block.size):
-        for j in range(2, window_size[1] // Block.size):
-            block = Block(COLOR['yellow'], 10, True, 10, i * Block.size, j * Block.size)
-            blocks.append(block)
-    return blocks'''

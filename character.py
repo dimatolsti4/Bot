@@ -24,7 +24,7 @@ def up_jump(bl, display):
         and (checking_step_capability(x, y + Character.vy + Character.height_jump,
                                       bl) and Character.vy >= 0)) and Character.jump:
         Character.y += Character.vy
-        #circle(display, (255, 0, 255), (Character.x, Character.y), 5)
+        # circle(display, (255, 0, 255), (Character.x, Character.y), 5)
         Character.vy += Character.g
     else:
         if Character.vy > 0:
@@ -95,19 +95,22 @@ def break_block(pos, x, y, blocks):
                 return False
     return False
 
-def dist(x1, y1, x2, y2):
-    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** .5
 
-
-def length(pos, x, y, a):
+def length(pos, x, y, a, blocks):
     '''
     Функция проверяет, находится ли блок рядом с персонажем
     x,y - координаты персонажа
     a -длина стороны блока
     pos - координаты клика
     '''
+    for block in blocks:
+        if (block.y == y + Character.height_no_jump) and block.x < x < block.x + a:
+            x = block.x + a / 2
+    y += Character.height_no_jump / 2 - a / 2
     if (abs(pos[0] - x) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
-            abs(pos[0] - x) < 3 * a / 2 and abs(pos[1] - y) < a / 2):
+            abs(pos[0] - x) < 5 * a / 4 and abs(pos[1] - y) <= a / 2)\
+        or (abs(pos[0] - x-a) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
+            abs(pos[0] - x-a) < 5 * a / 4 and abs(pos[1] - y) <= a / 2):
         return True
     else:
         return False
@@ -162,18 +165,21 @@ def were_to_go(k, bl, display):
 
 def draw_p(screen, image):
     if image == 0:
-        screen.blit(flip(Character.player_surface_Static, Character.orientation, False), (Character.x, screen.get_height()//2))
+        screen.blit(flip(Character.player_surface_Static, Character.orientation, False),
+                    (Character.x, screen.get_height() // 2))
     if image == 1:
-        screen.blit(flip(Character.player_surface_Going, Character.orientation, False), (Character.x, screen.get_height()//2))
+        screen.blit(flip(Character.player_surface_Going, Character.orientation, False),
+                    (Character.x, screen.get_height() // 2))
     if image == 2:
-        screen.blit(flip(Character.player_surface_Eating, Character.orientation, False), (Character.x, screen.get_height()//2))
+        screen.blit(flip(Character.player_surface_Eating, Character.orientation, False),
+                    (Character.x, screen.get_height() // 2))
     if image == 3:
-        screen.blit(flip(Character.player_surface_Jumping, Character.orientation, False), (Character.x, screen.get_height()//2))
+        screen.blit(flip(Character.player_surface_Jumping, Character.orientation, False),
+                    (Character.x, screen.get_height() // 2))
 
 
 def draw(screen, phase_1, phase_2):
     m = int(phase_1 / 10)
-    print(m)
     if phase_2 == 0:
         if m % 2 == 1:
             draw_p(screen, 0)

@@ -29,8 +29,6 @@ while not finished:
     screen.fill(BACKGROUND_COLOR)
     clock.tick(FPS)
 
-
-
     """except BaseException as e:
         print(str(e))
         break"""
@@ -56,29 +54,30 @@ while not finished:
                 Character.moving_left = False
 
         if event.type == pygame.MOUSEBUTTONDOWN:
+            print('yes')
             for block in blocks:
-                '''if block.x + block.size > event.pos[0] > block.x and \
-                        block.y + block.size > event.pos[1] > block.y and length(event.pos, Character.x, Character.y,
-                                                                                 block.size):
+                if block.x + block.size > event.pos[0] > block.x \
+                        and block.y + block.size > Character.y + event.pos[1] - screen.get_height() // 2 > block.y \
+                        and length(event.pos, Character.x, screen.get_height() // 2, block.size, blocks):
                     block.damage()
+                    block.use = 1
                     start_damage = 1
                     phase_2 = 1
-                    if block.hp <= 0:
-                        block.kill(blocks)
-                        fall(blocks, screen)'''
-                d = dist(*event.pos, Character.x, screen.get_height() // 2)
-                for block in blocks:
-                    if block.x + block.size > event.pos[0] > block.x and \
-                            block.y + block.size > Character.y + event.pos[1] - screen.get_height() // 2 > block.y and \
-                            d < Character.attack_range:
-                        block.damage()
-                        if block.hp <= 0:
-                            block.kill(blocks)
-                            fall(blocks, screen)
-                        phase_2 = 0
-                        start_damage = 0
-    #if start_damage == 1:
-      #  block.damage()
+        if event.type == pygame.MOUSEBUTTONUP:
+            start_damage = 0
+            phase_2 = 0
+            for block in blocks:
+                if block.use == 1:
+                    block.use = 0
+    for block in blocks:
+        if block.use == 1 and start_damage == 1:
+            block.damage()
+        if block.hp <= 0:
+            block.kill(blocks)
+            fall(blocks, screen)
+            phase_2 = 0
+            block.use = 0
+            start_damage = 0
 
     if Character.moving_right or Character.moving_left or Character.jump:
         if Character.moving_left:
@@ -102,7 +101,9 @@ while not finished:
 
     for block in blocks:
         block.draw(screen, Character.y)
-    # print(Character.x," ",Character.y)
     pygame.display.update()
+# print(Character.x," ",Character.y)
+
+
 pygame.display.quit()
 pygame.quit()
