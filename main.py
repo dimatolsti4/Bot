@@ -11,6 +11,8 @@ FPS = 60
 phase_1 = 0
 phase_2 = 0
 start_damage = 0
+pos = 0
+c = 0
 
 pygame.init()
 screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
@@ -63,6 +65,7 @@ while not finished:
                     block.use = 1
                     start_damage = 1
                     phase_2 = 1
+                    pos = event.pos
         if event.type == pygame.MOUSEBUTTONUP:
             start_damage = 0
             phase_2 = 0
@@ -70,15 +73,22 @@ while not finished:
                 if block.use == 1:
                     block.use = 0
     for block in blocks:
-        if block.use == 1 and start_damage == 1:
+        if block.use == 1 and start_damage == 1 \
+                and block.x + block.size > pos[0] > block.x \
+                and block.y + block.size > Character.y + pos[1] - screen.get_height() // 2 > block.y \
+                and length(pos, Character.x, screen.get_height() // 2, block.size, blocks):
             block.damage()
+            c = 1
         if block.hp <= 0:
             block.kill(blocks)
             fall(blocks, screen)
             phase_2 = 0
             block.use = 0
             start_damage = 0
-
+    if c != 1:
+        phase_2 = 0
+    else:
+        phase_2 = 1
     if Character.moving_right or Character.moving_left or Character.jump:
         if Character.moving_left:
             were_to_go('left', blocks, screen)
@@ -102,6 +112,7 @@ while not finished:
     for block in blocks:
         block.draw(screen, Character.y)
     pygame.display.update()
+    c = 0
 # print(Character.x," ",Character.y)
 
 
