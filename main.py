@@ -54,7 +54,7 @@ while not finished:
             for block in blocks:
                 if block.x + block.size > event.pos[0] > block.x \
                         and block.y + block.size > Character.y + event.pos[1] - screen.get_height() // 2 > block.y \
-                        and length(event.pos, Character.x, screen.get_height() // 2, block.size, blocks):
+                        and length(event.pos, Character.x, screen.get_height() // 2, block.size, blocks, screen):
                     block.damage()
                     block.use = 1
                     start_damage = 1
@@ -70,7 +70,7 @@ while not finished:
         if block.use == 1 and start_damage == 1 \
                 and block.x + block.size > pos[0] > block.x \
                 and block.y + block.size > Character.y + pos[1] - screen.get_height() // 2 > block.y \
-                and length(pos, Character.x, screen.get_height() // 2, block.size, blocks):
+                and length(pos, Character.x, screen.get_height() // 2, block.size, blocks, screen):
             block.damage()
             c = 1
         if block.hp <= 0:

@@ -122,7 +122,7 @@ def fall(blocks, screen):
         up_jump(blocks, screen)
 
 
-def length(pos, x, y, a, blocks):
+def length(pos, x, y, a, blocks, screen):
     '''
     Функция проверяет, находится ли блок рядом с персонажем
     x,y - координаты персонажа
@@ -130,15 +130,24 @@ def length(pos, x, y, a, blocks):
     pos - координаты клика
     '''
     for block in blocks:
-        if (block.y == y + Character.height_no_jump) and block.x < x < block.x + a:
+        if (abs(
+                block.y - Character.y + screen.get_height() // 2 - y - Character.height_no_jump) < a / 2) and block.x < x < block.x + a:
             x = block.x + a / 2
-            y = block.y - a/2
+            y = block.y - Character.y + screen.get_height() // 2 - a / 2
+            break
+        print(x, y, pos[0], pos[1])
+        if Character.orientation:
+            m = 1
+        else:
+            m = 1
     if (abs(pos[0] - x) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
-            abs(pos[0] - x) < 3 * a / 2 and abs(pos[1] - y) < a / 2)\
-        or (abs(pos[0] - x-a) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
-            abs(pos[0] - x-a) < 3 * a / 2 and abs(pos[1] - y) < a / 2):
+            abs(pos[0] - x) < 3 * a / 2 and abs(pos[1] - y) < a / 2):
         return True
     else:
+        if ((abs(pos[0] - x - a) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
+                abs(pos[0] - x - a) < 3 * a / 2 and abs(pos[1] - y) < a / 2)) \
+                and (Character.x + Character.width_no_jump > x + a / 2):
+            return True
         return False
 
 
