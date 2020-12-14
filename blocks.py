@@ -40,11 +40,11 @@ class Block():
         Method-initializator: returns void
         name:      string <block name>
         hp:        int    <how many hits to break block>
-        breakable: bool   <is block breakable> ##
+        breakable: bool   <is block breakable> 
         points:    int    <how many points you get by breaking>
         x, y:      int    <block coords>
         use:       pass   <undefined>
-        passable   bool   <is block passable> ##
+        passable   bool   <is block passable> 
         """
         self.id = name
 
