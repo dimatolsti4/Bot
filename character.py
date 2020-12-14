@@ -106,11 +106,11 @@ def length(pos, x, y, a, blocks):
     for block in blocks:
         if (block.y == y + Character.height_no_jump) and block.x < x < block.x + a:
             x = block.x + a / 2
-    y += Character.height_no_jump / 2 - a / 2
+            y = block.y - a/2
     if (abs(pos[0] - x) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
-            abs(pos[0] - x) < 5 * a / 4 and abs(pos[1] - y) <= a / 2)\
+            abs(pos[0] - x) < 3 * a / 2 and abs(pos[1] - y) < a / 2)\
         or (abs(pos[0] - x-a) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
-            abs(pos[0] - x-a) < 5 * a / 4 and abs(pos[1] - y) <= a / 2):
+            abs(pos[0] - x-a) < 3 * a / 2 and abs(pos[1] - y) < a / 2):
         return True
     else:
         return False
