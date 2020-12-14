@@ -1,4 +1,4 @@
-import pygame
+import math
 from pygame.draw import *
 from pygame.transform import flip
 from pygame.image import load
@@ -35,8 +35,8 @@ class Character:
     x = 200
     y = 50
     vy = 0
-    vx = 2
-    g = 1
+    vx = 4
+    g = 2
 
     orientation = False
 
@@ -192,7 +192,7 @@ def checking_step_capability(x, y, blocks):
     return True
 
 
-def were_to_go(key, blocks, screen):
+def were_to_go(key, blocks, SCORE, screen):
     '''
 
     :param key: переменная, задающая характер движения
@@ -200,16 +200,17 @@ def were_to_go(key, blocks, screen):
     :param screen: экран
     :return: Функция задаёт, что делает герой при нажатии на кнопки клавиатуры
     '''
-    if key == 'left' and checking_step_capability(Character.x - Character.vx, Character.y, blocks) and \
-            checking_step_capability(Character.x - Character.vx, Character.y + Character.height_no_jump - 2,
+    koef = (math.exp(-1 * (SCORE / 500))) ** 0.5
+    if key == 'left' and checking_step_capability(Character.x - Character.vx * koef, Character.y, blocks) and \
+            checking_step_capability(Character.x - Character.vx * koef, Character.y + Character.height_no_jump - 2,
                                      blocks):
-        Character.x -= Character.vx
+        Character.x -= Character.vx * koef
     if key == 'right' and \
-            checking_step_capability(Character.x + Character.vx + Character.width_no_jump, Character.y,
+            checking_step_capability(Character.x + Character.vx * koef + Character.width_no_jump, Character.y,
                                      blocks) and \
-            checking_step_capability(Character.x + Character.vx + Character.width_no_jump,
+            checking_step_capability(Character.x + Character.vx * koef + Character.width_no_jump,
                                      Character.y + Character.height_no_jump - 2, blocks):
-        Character.x += Character.vx
+        Character.x += Character.vx * koef
     if key == 'jump':
         Character.vy = -5
 
