@@ -9,7 +9,7 @@ from os.path import isfile, join
 from random import randint
 
 BLOCK_SIZE = 50
-SCREEN_HEIGHT = 1200
+MAP_HEIGHT = 1200
 
 SRC_PATH = 'src/'
 BLOCKS_PATH = SRC_PATH + "blocks/"
@@ -95,7 +95,7 @@ def create_map(window_size, offset=2):
     """
     blocks = []
     num_lines = window_size[0] // Block.size
-    num_col = SCREEN_HEIGHT // Block.size * 2
+    num_col = MAP_HEIGHT // Block.size * 2
     
     for i in range(-4, num_col):
         y_position = i + offset
