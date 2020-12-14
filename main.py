@@ -12,7 +12,7 @@ phase_1 = 0
 phase_2 = 0
 start_damage = 0
 pos = 0
-c = 0
+proximity_check = False
 
 SCORE = 0
 
@@ -29,7 +29,7 @@ finished = False
 while not finished:
     screen.fill(BACKGROUND_COLOR)
     clock.tick(FPS)
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
@@ -55,7 +55,7 @@ while not finished:
             for block in blocks:
                 if block.x + block.size > event.pos[0] > block.x \
                         and block.y + block.size > Character.y + event.pos[1] - screen.get_height() // 2 > block.y \
-                        and length(event.pos, xy[0],xy[1], block.size, blocks, screen):
+                        and length(event.pos, xy[0], xy[1], block.size, blocks, screen):
                     block.damage()
                     block.use = 1
                     start_damage = 1
@@ -67,23 +67,25 @@ while not finished:
             for block in blocks:
                 if block.use == 1:
                     block.use = 0
+    xy = nearest_block(Character.x, screen.get_height() // 2, blocks, screen)
     for block in blocks:
         if block.use == 1 and start_damage == 1 \
                 and block.x + block.size > pos[0] > block.x \
                 and block.y + block.size > Character.y + pos[1] - screen.get_height() // 2 > block.y \
-                and length(pos, xy[0],xy[1], block.size, blocks, screen):
+                and length(pos, xy[0], xy[1], block.size, blocks, screen):
+            print("fuck")
             block.damage()
-            c = 1
+            proximity_check = True
         if block.hp <= 0:
             SCORE = block.kill(blocks, SCORE)
             fall(blocks, screen)
             phase_2 = 0
             block.use = 0
             start_damage = 0
-    if c != 1:
-        phase_2 = 0
-    else:
+    if proximity_check:
         phase_2 = 1
+    else:
+        phase_2 = 0
     if Character.moving_right or Character.moving_left or Character.jump:
         if Character.moving_left:
             were_to_go('left', blocks, screen)
@@ -108,8 +110,7 @@ while not finished:
         block.draw(screen, Character.y)
     screen.blit(font.render(('Score:' + str(SCORE)), True, (0, 0, 0)), (32, 48))
     pygame.display.update()
-    c = 0
-
+    proximity_check = False
 
 pygame.display.quit()
 pygame.quit()

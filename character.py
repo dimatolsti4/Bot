@@ -148,6 +148,7 @@ def nearest_block(x, y, blocks, screen):
             x1 = block.x + a / 2
             y1 = block.y - Character.y + screen.get_height() // 2 - a / 2
             return x1, y1
+    return x, y
 
 
 def cross_product(x1, y1, x2, y2, x0, y0):
