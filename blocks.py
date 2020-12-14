@@ -9,7 +9,7 @@ from os.path import isfile, join
 from random import randint
 
 BLOCK_SIZE = 50
-SCREEN_HEIGHT = 1200
+MAP_HEIGHT = 1200
 
 SRC_PATH = 'src/'
 BLOCKS_PATH = SRC_PATH + "blocks/"
@@ -40,11 +40,11 @@ class Block():
         Method-initializator: returns void
         name:      string <block name>
         hp:        int    <how many hits to break block>
-        breakable: bool   <is block breakable> ##
+        breakable: bool   <is block breakable> 
         points:    int    <how many points you get by breaking>
         x, y:      int    <block coords>
         use:       pass   <undefined>
-        passable   bool   <is block passable> ##
+        passable   bool   <is block passable> 
         """
         self.id = name
 
@@ -95,7 +95,7 @@ def create_map(window_size, offset=2):
     """
     blocks = []
     num_lines = window_size[0] // Block.size
-    num_col = SCREEN_HEIGHT // Block.size * 2
+    num_col = MAP_HEIGHT // Block.size * 2
     
     for i in range(-4, num_col):
         y_position = i + offset

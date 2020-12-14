@@ -96,9 +96,9 @@ while not finished:
         phase_2 = 0
     if Character.moving_right or Character.moving_left or Character.jump:
         if Character.moving_left:
-            were_to_go('left', blocks, screen)
+            were_to_go('left', blocks, SCORE, screen)
         if Character.moving_right:
-            were_to_go('right', blocks, screen)
+            were_to_go('right', blocks, SCORE, screen)
         if Character.jump:
             up_jump(blocks, screen)
         fall(blocks, screen)
