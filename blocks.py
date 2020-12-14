@@ -19,10 +19,17 @@ OS_BLOCK_PATH = getcwd() + "\\" + BLOCKS_PATH.replace("/", "\\")[:-1]
 BLOCK_NAMES = [f[:-4] for f in listdir(OS_BLOCK_PATH) if isfile(join(OS_BLOCK_PATH, f))]
 
 BLOCKS_SRC = {name: scale(load(BLOCKS_PATH + name + ".png"), (BLOCK_SIZE, BLOCK_SIZE)) for name in BLOCK_NAMES}
+
 BLOCK_POINTS = {
     "bamboo": 10,
     "bambooo": 50,
     "diamond": 100
+}
+
+BLOCK_HP = {
+    "bamboo": 100,
+    "bambooo": 150,
+    "diamond": 200
 }
 
 class Block():
@@ -107,10 +114,10 @@ def create_map(window_size, offset=2):
                 block = Block("$under_bedrock", 1, False, 0, x, y, 0)
             elif j <= num_col // 5:
                 name = BLOCK_NAMES[randint(BLOCK_NAMES.index("$under_bedrock") + 1, len(BLOCK_NAMES) - 2)]
-                block = Block(name, 70, True, BLOCK_POINTS[name], x, y, 0)
+                block = Block(name, BLOCK_HP[name], True, BLOCK_POINTS[name], x, y, 0)
             else:
                 name = BLOCK_NAMES[randint(BLOCK_NAMES.index("$under_bedrock") + 1, len(BLOCK_NAMES) - 1)]
-                block = Block(name, 90, True, BLOCK_POINTS[name], x, y, 0)
+                block = Block(name, BLOCK_HP[name], True, BLOCK_POINTS[name], x, y, 0)
             if (randint(0, 10) > 7):
                 blocks.append(Block("$$liana", 1, False, 0, x, y, 0, True))
             blocks.append(block)
