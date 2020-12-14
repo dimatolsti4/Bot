@@ -8,35 +8,31 @@ color_black = (0, 0, 0)
 
 def up_jump(bl, display):
     '''
-
     :param bl: массив блоков
     :param display: экран
     :return: отвечает за перемещение персонажа во время прыжка
     '''
-    Character.y -= Character.height_jump - Character.height_no_jump
     x = Character.x
     y = Character.y
     if ((checking_step_capability(x, y - 1 + Character.vy, bl) and Character.vy < 0)
-        and (checking_step_capability(x + Character.width_no_jump, y - 1 + Character.vy,
+        and (checking_step_capability(x + Character.player_surface.get_width(), y - 1 + Character.vy,
                                       bl) and Character.vy < 0)
-        or (checking_step_capability(x + Character.width_no_jump,
-                                     y + Character.vy + Character.height_jump, bl) and Character.vy >= 0)
-        and (checking_step_capability(x, y + Character.vy + Character.height_jump,
+        or (checking_step_capability(x + Character.player_surface.get_width(),
+                                     y + Character.vy + Character.player_surface.get_width(), bl) and Character.vy >= 0)
+        and (checking_step_capability(x, y + Character.vy + Character.player_surface.get_width(),
                                       bl) and Character.vy >= 0)) and Character.jump:
         Character.y += Character.vy
-        # circle(display, (255, 0, 255), (Character.x, Character.y), 5)
+        circle(display, (255, 0, 255), (Character.x, Character.y), 5)
         Character.vy += Character.g
     else:
         if Character.vy > 0:
             Character.jump = False
-            Character.y += Character.height_jump - Character.height_no_jump
             tweaking(bl, display)
         Character.vy = 0
 
 
 def tweaking(bl, display):
     '''
-
     :param bl: массив блоков
     :param display: экран
     :return: функция отвечает за доводку героя до соприкосновения с ближайшим нижним юлоком после прыжка
@@ -44,8 +40,8 @@ def tweaking(bl, display):
     '''
     h = 1000
     x = Character.x
-    x_new = x + Character.width_no_jump
-    y = Character.y + Character.vy + Character.height_no_jump
+    x_new = x + Character.player_surface.get_width()
+    y = Character.y + Character.vy + Character.player_surface.get_width()
     for g in bl:
         if cross_product(g.x, g.y, g.x + g.size, g.y, x, y) \
                 and cross_product(g.x + g.size, g.y, g.x + g.size, g.y + g.size, x, y) \
@@ -58,16 +54,15 @@ def tweaking(bl, display):
             m = g.y - y + Character.vy
             if h > m:
                 h = m
-                break
+            break
     Character.y += h
 
 
 def fall(bl, display):
     '''
-
     :param bl:
     :param display:
-    :return: функция отвечает за падение персонажа, если под ним нет блоков
+    :return: функция отвечает за падение персонажа, если под ним нет блокав
     '''
     y0 = Character.y
     tweaking(bl, display)
@@ -96,34 +91,17 @@ def break_block(pos, x, y, blocks):
     return False
 
 
-def length(pos, x, y, a, blocks, screen):
+def length(pos, x, y, a):
     '''
     Функция проверяет, находится ли блок рядом с персонажем
     x,y - координаты персонажа
     a -длина стороны блока
     pos - координаты клика
     '''
-    for block in blocks:
-        if (abs(
-                block.y - Character.y + screen.get_height() // 2 - y - Character.height_no_jump) < a / 2) and block.x < x < block.x + a:
-            x = block.x + a / 2
-            y = block.y - Character.y + screen.get_height() // 2 - a / 2
-            print('ko', block.x, block.y)
-            break
-    print(x, y, pos[0], pos[1])
-    if Character.orientation:
-        m = 1
-    else:
-        m = 1
     if (abs(pos[0] - x) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
             abs(pos[0] - x) < 3 * a / 2 and abs(pos[1] - y) < a / 2):
         return True
     else:
-        if ((abs(pos[0] - x - a) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
-                abs(pos[0] - x - a) < 3 * a / 2 and abs(pos[1] - y) < a / 2)) \
-                and (Character.x + Character.width_no_jump > x + a / 2):
-            print("sd")
-            return True
         return False
 
 
@@ -161,46 +139,21 @@ def were_to_go(k, bl, display):
     Функция задаёт, что делает герой при нажатии на кнопки клавиатуры
     '''
     if k == 'left' and checking_step_capability(Character.x - Character.vx, Character.y, bl) and \
-            checking_step_capability(Character.x - Character.vx, Character.y + Character.height_no_jump - 2,
+            checking_step_capability(Character.x - Character.vx, Character.y + Character.player_surface.get_width() - 2,
                                      bl):
         Character.x -= Character.vx
     if k == 'right' and \
-            checking_step_capability(Character.x + Character.vx + Character.width_no_jump, Character.y,
+            checking_step_capability(Character.x + Character.vx + Character.player_surface.get_width(), Character.y,
                                      bl) and \
-            checking_step_capability(Character.x + Character.vx + Character.width_no_jump,
-                                     Character.y + Character.height_no_jump - 2, bl):
+            checking_step_capability(Character.x + Character.vx + Character.player_surface.get_width(),
+                                     Character.y + Character.player_surface.get_width() - 2, bl):
         Character.x += Character.vx
     if k == 'jump':
-        Character.vy = -5
+        Character.vy = -10
 
 
-def draw_p(screen, image):
-    if image == 0:
-        screen.blit(flip(Character.player_surface_Static, Character.orientation, False),
-                    (Character.x, screen.get_height() // 2))
-    if image == 1:
-        screen.blit(flip(Character.player_surface_Going, Character.orientation, False),
-                    (Character.x, screen.get_height() // 2))
-    if image == 2:
-        screen.blit(flip(Character.player_surface_Eating, Character.orientation, False),
-                    (Character.x, screen.get_height() // 2))
-    if image == 3:
-        screen.blit(flip(Character.player_surface_Jumping, Character.orientation, False),
-                    (Character.x, screen.get_height() // 2))
-
-
-def draw(screen, phase_1, phase_2):
-    m = int(phase_1 / 10)
-    if phase_2 == 0:
-        if m % 2 == 1:
-            draw_p(screen, 0)
-        else:
-            draw_p(screen, 1)
-    else:
-        if m % 2 == 0:
-            draw_p(screen, 0)
-        else:
-            draw_p(screen, 2)
+def draw_p(screen):
+    screen.blit(flip(Character.player_surface, Character.orientation, False), (Character.x, Character.y))
 
 
 if __name__ == "__main__":
