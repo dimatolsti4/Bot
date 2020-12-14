@@ -10,6 +10,7 @@ from random import randint
 
 BLOCK_SIZE = 50
 SCALE = 0.11
+SCREEN_HEIGHT = 1200
 
 SRC_PATH = 'src/'
 BLOCKS_PATH = SRC_PATH + "blocks/"
@@ -64,7 +65,7 @@ class Block():
 def create_map(window_size, offset=2):
     blocks = []
     num_lines = window_size[0] // Block.size
-    num_col = window_size[1] // Block.size * 2
+    num_col = SCREEN_HEIGHT // Block.size * 2
     
     for i in range(-4, num_col):
         y_position = i + offset
