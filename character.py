@@ -22,13 +22,22 @@ PLAYER_SRC_Jumping = load(PLAYER_PATH_Jumping)
 
 
 class Character:
+    '''
+    x,y - координаты персонажа
+    vx, vy - скорости персонажа по координатам
+    g - ускорение свободного падения
+    orientation - ориентация картинки персонажа относительно вертикальной оси
+    moving_right, moving_left, jump - переменные задающие характер движения
+    player_surface_Static (-_Going, -_Eating, -_Jumping) - изображение персонажа во время покоя, ходьбы по горизонтали,
+    прыжка и поедания бамбука
+    height_no_jump, width_no_jump - высота и ширина изображения персонажа не во время прыжка
+    height_jump - высота картинки персонажа во время прыжка
+    '''
     x = 200
     y = 50
     vy = 0
     vx = 2
     g = 1
-    hp = 10
-    attack_range = 50
 
     orientation = False
 
@@ -52,7 +61,6 @@ class Character:
 
 def up_jump(blocks, screen):
     '''
-
     :param blocks: массив блоков
     :param screen: экран
     :return: отвечает за перемещение персонажа во время прыжка
@@ -79,7 +87,6 @@ def up_jump(blocks, screen):
 
 def tweaking(blocks, screen):
     '''
-
     :param blocks: массив блоков
     :param screen: экран
     :return: функция отвечает за доводку героя до соприкосновения с ближайшим нижним юлоком после прыжка
@@ -107,7 +114,6 @@ def tweaking(blocks, screen):
 
 def fall(blocks, screen):
     '''
-
     :param blocks:
     :param screen:
     :return: функция отвечает за падение персонажа, если под ним нет блоков
@@ -122,12 +128,12 @@ def fall(blocks, screen):
         up_jump(blocks, screen)
 
 
-def length(pos, x, y, a, blocks, screen):
+def length(pos, x, y, a):
     '''
-    Функция проверяет, находится ли блок рядом с персонажем
-    x,y - координаты персонажа
-    a -длина стороны блока
-    pos - координаты клика
+    :param pos: координаты клика мыши
+    :param x, y: координаты центра квадрата, где нахоится персонаж
+    :param a: ширина стороны блока
+    :return: определяет находится ли блок, по которому кликнули, рядом с персонажем и возвращает булево значение ответа
     '''
     if (abs(pos[0] - x) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
             abs(pos[0] - x) < 3 * a / 2 and abs(pos[1] - y) < a / 2):
@@ -141,6 +147,13 @@ def length(pos, x, y, a, blocks, screen):
 
 
 def nearest_block(x, y, blocks, screen):
+    '''
+    :param x, y: координаты персонажа
+    :param blocks: массив всех блоков
+    :param screen: экран
+    :return: определяет координаты (x1,y1) центра квадрата, в котором находится левый верхний угол картинки персонажа
+             квадрат здесь - это потенциальное место для расположения блока
+    '''
     for block in blocks:
         a = block.size
         if (abs(
@@ -182,7 +195,11 @@ def checking_step_capability(x, y, blocks):
 
 def were_to_go(key, blocks, screen):
     '''
-    Функция задаёт, что делает герой при нажатии на кнопки клавиатуры
+
+    :param key: переменная, задающая характер движения
+    :param blocks: массив блоков
+    :param screen: экран
+    :return: Функция задаёт, что делает герой при нажатии на кнопки клавиатуры
     '''
     if key == 'left' and checking_step_capability(Character.x - Character.vx, Character.y, blocks) and \
             checking_step_capability(Character.x - Character.vx, Character.y + Character.height_no_jump - 2,
@@ -199,6 +216,11 @@ def were_to_go(key, blocks, screen):
 
 
 def draw_p(screen, image):
+    '''
+    :param screen: экран
+    :param image: номер картинки персонажа, которую необходимо отобразить на экарне
+    :return: отрисовывает необходимую картинку персонажа на экране
+    '''
     if image == 0:
         screen.blit(flip(Character.player_surface_Static, Character.orientation, False),
                     (Character.x, screen.get_height() // 2))
@@ -214,6 +236,13 @@ def draw_p(screen, image):
 
 
 def draw(screen, phase_1, phase_2):
+    '''
+    :param screen: экран
+    :param phase_1: счётчик кадров в виде числа, остаток от деления на 2 разряда десятков которого определяет,
+                    какое изображение из двух сменяющихся должно быть на экране
+    :param phase_2: параметр, задающий ест ли сейчас персонаж (phase_2=1) или нет ((phase_2=0)
+    :return: функция определяет какое именно изображение персонажа надо вывести на экран в данный момент
+    '''
     m = int(phase_1 / 10)
     if phase_2 == 0:
         if m % 2 == 1:

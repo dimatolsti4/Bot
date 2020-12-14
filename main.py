@@ -55,7 +55,7 @@ while not finished:
             for block in blocks:
                 if block.x + block.size > event.pos[0] > block.x \
                         and block.y + block.size > Character.y + event.pos[1] - screen.get_height() // 2 > block.y \
-                        and length(event.pos, xy[0], xy[1], block.size, blocks, screen):
+                        and length(event.pos, xy[0], xy[1], block.size):
                     block.damage()
                     block.use = 1
                     start_damage = 1
@@ -72,7 +72,7 @@ while not finished:
         if block.use == 1 and start_damage == 1 \
                 and block.x + block.size > pos[0] > block.x \
                 and block.y + block.size > Character.y + pos[1] - screen.get_height() // 2 > block.y \
-                and length(pos, xy[0], xy[1], block.size, blocks, screen):
+                and length(pos, xy[0], xy[1], block.size):
             print("fuck")
             block.damage()
             proximity_check = True
