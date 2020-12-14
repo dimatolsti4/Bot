@@ -1,7 +1,7 @@
 import sys
 import pygame
 from character import *
-from chtoto import *
+from blocks import *
 from pygame.locals import *
 
 BACKGROUND_COLOR = (0, 170, 170)
@@ -14,11 +14,11 @@ start_damage = 0
 pos = 0
 c = 0
 
+SCORE = 0
+
 pygame.init()
 screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
-# display = pygame.Surface(WINDOW_SIZE)
-
-# blocks = create_map()# fix me
+font = pygame.font.SysFont('Consolas', 30)
 
 blocks = create_map(WINDOW_SIZE)
 
@@ -27,14 +27,9 @@ clock = pygame.time.Clock()
 finished = False
 
 while not finished:
-    # try:
     screen.fill(BACKGROUND_COLOR)
     clock.tick(FPS)
-
-    """except BaseException as e:
-        print(str(e))
-        break"""
-
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
@@ -56,11 +51,10 @@ while not finished:
                 Character.moving_left = False
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            print('yes')
             for block in blocks:
                 if block.x + block.size > event.pos[0] > block.x \
                         and block.y + block.size > Character.y + event.pos[1] - screen.get_height() // 2 > block.y \
-                        and length(event.pos, Character.x, screen.get_height() // 2, block.size, blocks, screen):
+                        and length(event.pos, Character.x, screen.get_height() // 2, block.size, blocks):
                     block.damage()
                     block.use = 1
                     start_damage = 1
@@ -76,11 +70,11 @@ while not finished:
         if block.use == 1 and start_damage == 1 \
                 and block.x + block.size > pos[0] > block.x \
                 and block.y + block.size > Character.y + pos[1] - screen.get_height() // 2 > block.y \
-                and length(pos, Character.x, screen.get_height() // 2, block.size, blocks, screen):
+                and length(pos, Character.x, screen.get_height() // 2, block.size, blocks):
             block.damage()
             c = 1
         if block.hp <= 0:
-            block.kill(blocks)
+            SCORE = block.kill(blocks, SCORE)
             fall(blocks, screen)
             phase_2 = 0
             block.use = 0
@@ -111,9 +105,9 @@ while not finished:
 
     for block in blocks:
         block.draw(screen, Character.y)
+    screen.blit(font.render(('Score:' + str(SCORE)), True, (0, 0, 0)), (32, 48))
     pygame.display.update()
     c = 0
-# print(Character.x," ",Character.y)
 
 
 pygame.display.quit()
