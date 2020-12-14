@@ -1,5 +1,4 @@
 import pygame
-from blocks import Block
 from pygame.draw import *
 from pygame.transform import flip
 from pygame.image import load

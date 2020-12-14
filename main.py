@@ -1,8 +1,5 @@
-import sys
-import pygame
-from character import *
+#import pygame.mixer.music
 from blocks import *
-from pygame.locals import *
 
 BACKGROUND_COLOR = (0, 170, 170)
 
@@ -23,6 +20,8 @@ font = pygame.font.SysFont('Consolas', 30)
 blocks = create_map(WINDOW_SIZE)
 
 clock = pygame.time.Clock()
+start_time = pygame.time.get_ticks()
+ROUND_TIME = 120
 
 finished = False
 
@@ -109,8 +108,26 @@ while not finished:
     for block in blocks:
         block.draw(screen, Character.y)
     screen.blit(font.render(('Score:' + str(SCORE)), True, (0, 0, 0)), (32, 48))
+    screen.blit(font.render(('time:' + str(ROUND_TIME - (pygame.time.get_ticks() - start_time) // 1000)),\
+                            True, (0, 0, 0)),(400, 48))
     pygame.display.update()
     proximity_check = False
+
+    if ROUND_TIME - (pygame.time.get_ticks() - start_time)//1000 <= 0:
+        finished = True
+
+finished = False
+
+while not finished:
+    screen.fill(BACKGROUND_COLOR)
+    screen.blit(font.render(('GAME OVER!'), True, (0, 0, 0)), (32, 48))
+    screen.blit(font.render(('You earned:' + str(SCORE)), True, (0, 0, 0)), (32, 88))
+    clock.tick(FPS)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            finished = True
+    pygame.display.update()
 
 pygame.display.quit()
 pygame.quit()
