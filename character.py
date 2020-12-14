@@ -20,6 +20,7 @@ PLAYER_SRC_Going = load(PLAYER_PATH_Going)
 PLAYER_SRC_Eating = load(PLAYER_PATH_Eating)
 PLAYER_SRC_Jumping = load(PLAYER_PATH_Jumping)
 
+
 class Character:
     x = 200
     y = 50
@@ -47,7 +48,6 @@ class Character:
     height_no_jump = player_surface_Static.get_height()
     width_no_jump = player_surface_Static.get_width()
     height_jump = player_surface_Jumping.get_height()
-
 
 
 def up_jump(blocks, screen):
@@ -129,17 +129,6 @@ def length(pos, x, y, a, blocks, screen):
     a -длина стороны блока
     pos - координаты клика
     '''
-    for block in blocks:
-        if (abs(
-                block.y - Character.y + screen.get_height() // 2 - y - Character.height_no_jump) < a / 2) and block.x < x < block.x + a:
-            x = block.x + a / 2
-            y = block.y - Character.y + screen.get_height() // 2 - a / 2
-            break
-        print(x, y, pos[0], pos[1])
-        if Character.orientation:
-            m = 1
-        else:
-            m = 1
     if (abs(pos[0] - x) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
             abs(pos[0] - x) < 3 * a / 2 and abs(pos[1] - y) < a / 2):
         return True
@@ -149,6 +138,16 @@ def length(pos, x, y, a, blocks, screen):
                 and (Character.x + Character.width_no_jump > x + a / 2):
             return True
         return False
+
+
+def nearest_block(x, y, blocks, screen):
+    for block in blocks:
+        a = block.size
+        if (abs(
+                block.y - Character.y + screen.get_height() // 2 - y - Character.height_no_jump) < a / 2) and block.x < x < block.x + a:
+            x1 = block.x + a / 2
+            y1 = block.y - Character.y + screen.get_height() // 2 - a / 2
+            return x1, y1
 
 
 def cross_product(x1, y1, x2, y2, x0, y0):
