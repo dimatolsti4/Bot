@@ -110,7 +110,7 @@ def create_map(window_size, offset=2):
                 block = Block(name, 70, True, BLOCK_POINTS[name], x, y, 0)
             else:
                 name = BLOCK_NAMES[randint(BLOCK_NAMES.index("$under_bedrock") + 1, len(BLOCK_NAMES) - 1)]
-                block = Block(name, 70, True, BLOCK_POINTS[name], x, y, 0)
+                block = Block(name, 90, True, BLOCK_POINTS[name], x, y, 0)
             if (randint(0, 10) > 7):
                 blocks.append(Block("$$liana", 1, False, 0, x, y, 0, True))
             blocks.append(block)

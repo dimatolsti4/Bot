@@ -2,10 +2,11 @@ import pygame.mixer
 from blocks import *
 
 music_background = 'Kusuma Orchestra - Charming.mp3'
+
 pygame.init()
-pygame.mixer.init()
 pygame.mixer.music.load(music_background)
 pygame.mixer.music.play(-1)
+eating_sound = pygame.mixer.Sound('nom-nom-nom_gPJiWn4(1).ogg')
 
 BACKGROUND_COLOR = (0, 170, 170)
 
@@ -56,6 +57,7 @@ while not finished:
                 Character.moving_left = False
 
         if event.type == pygame.MOUSEBUTTONDOWN:
+            eating_sound.set_volume(7)
             xy = nearest_block(Character.x, screen.get_height() // 2, blocks, screen)
             for block in blocks:
                 if block.x + block.size > event.pos[0] > block.x \
@@ -69,6 +71,7 @@ while not finished:
         if event.type == pygame.MOUSEBUTTONUP:
             start_damage = 0
             phase_2 = 0
+            eating_sound.set_volume(0)
             for block in blocks:
                 if block.use == 1:
                     block.use = 0
@@ -78,7 +81,6 @@ while not finished:
                 and block.x + block.size > pos[0] > block.x \
                 and block.y + block.size > Character.y + pos[1] - screen.get_height() // 2 > block.y \
                 and length(pos, xy[0], xy[1], block.size):
-            print("fuck")
             block.damage()
             proximity_check = True
         if block.hp <= 0:
@@ -111,15 +113,18 @@ while not finished:
         else:
             draw_p(screen, 0)
 
+    if phase_2 == 1:
+        eating_sound.play(0)
+
     for block in blocks:
         block.draw(screen, Character.y)
     screen.blit(font.render(('Score:' + str(SCORE)), True, (0, 0, 0)), (32, 48))
-    screen.blit(font.render(('time:' + str(ROUND_TIME - (pygame.time.get_ticks() - start_time) // 1000)),\
-                            True, (0, 0, 0)),(400, 48))
+    screen.blit(font.render(('time:' + str(ROUND_TIME - (pygame.time.get_ticks() - start_time) // 1000)), \
+                            True, (0, 0, 0)), (400, 48))
     pygame.display.update()
     proximity_check = False
 
-    if ROUND_TIME - (pygame.time.get_ticks() - start_time)//1000 <= 0:
+    if ROUND_TIME - (pygame.time.get_ticks() - start_time) // 1000 <= 0:
         finished = True
 
 finished = False
