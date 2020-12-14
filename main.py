@@ -1,9 +1,15 @@
-#import pygame.mixer.music
+import pygame.mixer
 from blocks import *
+
+file = 'Kusuma Orchestra - Charming.mp3'
+pygame.init()
+pygame.mixer.init()
+pygame.mixer.music.load(file)
+pygame.mixer.music.play(-1)
 
 BACKGROUND_COLOR = (0, 170, 170)
 
-WINDOW_SIZE = (600, 400)
+WINDOW_SIZE = (600, 800)
 FPS = 60
 phase_1 = 0
 phase_2 = 0

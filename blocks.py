@@ -105,7 +105,7 @@ def create_map(window_size, offset=2):
                 block = Block("$bedrock", 1, False, 0, x, y, 0)
             elif j >= num_col:
                 block = Block("$under_bedrock", 1, False, 0, x, y, 0)
-            elif j <= num_col // 2:
+            elif j <= num_col // 5:
                 name = BLOCK_NAMES[randint(BLOCK_NAMES.index("$under_bedrock") + 1, len(BLOCK_NAMES) - 2)]
                 block = Block(name, 70, True, BLOCK_POINTS[name], x, y, 0)
             else:
