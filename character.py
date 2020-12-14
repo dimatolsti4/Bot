@@ -1,48 +1,95 @@
 import pygame
-from chtoto import Block, Character
+from blocks import Block
 from pygame.draw import *
 from pygame.transform import flip
+from pygame.image import load
+from pygame.transform import scale
 
 color_black = (0, 0, 0)
 
+SCALE = 0.11
 
-def up_jump(bl, display):
+SRC_PATH = 'src/'
+
+PLAYER_PATH_Static = 'src/Static.png'
+PLAYER_PATH_Going = 'src/Going.png'
+PLAYER_PATH_Eating = 'src/Eating.png'
+PLAYER_PATH_Jumping = 'src/Jumping.png'
+PLAYER_SRC_Static = load(PLAYER_PATH_Static)
+PLAYER_SRC_Going = load(PLAYER_PATH_Going)
+PLAYER_SRC_Eating = load(PLAYER_PATH_Eating)
+PLAYER_SRC_Jumping = load(PLAYER_PATH_Jumping)
+
+class Character:
+    x = 200
+    y = 50
+    vy = 0
+    vx = 2
+    g = 1
+    hp = 10
+    attack_range = 50
+
+    orientation = False
+
+    moving_right = False
+    moving_left = False
+    jump = False
+
+    player_surface_Static = scale(PLAYER_SRC_Static, (
+        int(PLAYER_SRC_Static.get_width() * SCALE), int(PLAYER_SRC_Static.get_height() * SCALE)))
+    player_surface_Going = scale(PLAYER_SRC_Going, (
+        int(PLAYER_SRC_Going.get_width() * SCALE), int(PLAYER_SRC_Going.get_height() * SCALE)))
+    player_surface_Eating = scale(PLAYER_SRC_Eating, (
+        int(PLAYER_SRC_Eating.get_width() * SCALE), int(PLAYER_SRC_Eating.get_height() * SCALE)))
+    player_surface_Jumping = scale(PLAYER_SRC_Jumping, (
+        int(PLAYER_SRC_Jumping.get_width() * SCALE), int(PLAYER_SRC_Jumping.get_height() * SCALE)))
+
+    height_no_jump = player_surface_Static.get_height()
+    width_no_jump = player_surface_Static.get_width()
+    height_jump = player_surface_Jumping.get_height()
+
+
+
+def up_jump(blocks, screen):
     '''
-    :param bl: массив блоков
-    :param display: экран
+
+    :param blocks: массив блоков
+    :param screen: экран
     :return: отвечает за перемещение персонажа во время прыжка
     '''
+    Character.y -= Character.height_jump - Character.height_no_jump
     x = Character.x
     y = Character.y
-    if ((checking_step_capability(x, y - 1 + Character.vy, bl) and Character.vy < 0)
-        and (checking_step_capability(x + Character.player_surface.get_width(), y - 1 + Character.vy,
-                                      bl) and Character.vy < 0)
-        or (checking_step_capability(x + Character.player_surface.get_width(),
-                                     y + Character.vy + Character.player_surface.get_width(), bl) and Character.vy >= 0)
-        and (checking_step_capability(x, y + Character.vy + Character.player_surface.get_width(),
-                                      bl) and Character.vy >= 0)) and Character.jump:
+    if ((checking_step_capability(x, y - 1 + Character.vy, blocks) and Character.vy < 0)
+        and (checking_step_capability(x + Character.width_no_jump, y - 1 + Character.vy,
+                                      blocks) and Character.vy < 0)
+        or (checking_step_capability(x + Character.width_no_jump,
+                                     y + Character.vy + Character.height_jump, blocks) and Character.vy >= 0)
+        and (checking_step_capability(x, y + Character.vy + Character.height_jump,
+                                      blocks) and Character.vy >= 0)) and Character.jump:
         Character.y += Character.vy
-        circle(display, (255, 0, 255), (Character.x, Character.y), 5)
         Character.vy += Character.g
     else:
         if Character.vy > 0:
             Character.jump = False
-            tweaking(bl, display)
+            Character.y += Character.height_jump - Character.height_no_jump
+            tweaking(blocks, screen)
         Character.vy = 0
 
 
-def tweaking(bl, display):
+def tweaking(blocks, screen):
     '''
-    :param bl: массив блоков
-    :param display: экран
+
+    :param blocks: массив блоков
+    :param screen: экран
     :return: функция отвечает за доводку героя до соприкосновения с ближайшим нижним юлоком после прыжка
     функция необходима, как дополнение к функции up_jump
     '''
     h = 1000
     x = Character.x
-    x_new = x + Character.player_surface.get_width()
-    y = Character.y + Character.vy + Character.player_surface.get_width()
-    for g in bl:
+    x_new = x + Character.width_no_jump
+    y = Character.y + Character.vy + Character.height_no_jump
+    for g in blocks:
         if cross_product(g.x, g.y, g.x + g.size, g.y, x, y) \
                 and cross_product(g.x + g.size, g.y, g.x + g.size, g.y + g.size, x, y) \
                 and cross_product(g.x + g.size, g.y + g.size, g.x, g.y + g.size, x, y) \
@@ -54,52 +101,42 @@ def tweaking(bl, display):
             m = g.y - y + Character.vy
             if h > m:
                 h = m
-            break
+                break
     Character.y += h
 
 
-def fall(bl, display):
+def fall(blocks, screen):
     '''
-    :param bl:
-    :param display:
-    :return: функция отвечает за падение персонажа, если под ним нет блокав
+
+    :param blocks:
+    :param screen:
+    :return: функция отвечает за падение персонажа, если под ним нет блоков
     '''
     y0 = Character.y
-    tweaking(bl, display)
+    tweaking(blocks, screen)
     h = Character.y - y0
     Character.y = y0
     if h != 0 and not Character.jump:
         Character.vy = 0
         Character.jump = True
-        up_jump(bl, display)
+        up_jump(blocks, screen)
 
 
-def break_block(pos, x, y, blocks):
-    '''
-    Функция проверяет можно ли сломать блок и есть ли он вообще в месте клика
-    если g.type ==1 то блок сломать можно
-    '''
-    for g in blocks:
-        if cross_product(g.x, g.y, g.x + g.a, g.y, pos[0], pos[1]) \
-                and cross_product(g.x + g.a, g.y, g.x + g.a, g.y + g.a, pos[0], pos[1]) \
-                and cross_product(g.x + g.a, g.y + g.a, g.x, g.y + g.a, pos[0], pos[1]) \
-                and cross_product(g.x, g.y + g.a, g.x, g.y, pos[0], pos[1]):
-            if g.type == 1 and length(pos, x, y, g.a):
-                return True
-            else:
-                return False
-    return False
-
-
-def length(pos, x, y, a):
+def length(pos, x, y, a, blocks):
     '''
     Функция проверяет, находится ли блок рядом с персонажем
     x,y - координаты персонажа
     a -длина стороны блока
     pos - координаты клика
     '''
+    for block in blocks:
+        if (block.y == y + Character.height_no_jump) and block.x < x < block.x + a:
+            x = block.x + a / 2
+            y = block.y - a/2
     if (abs(pos[0] - x) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
-            abs(pos[0] - x) < 3 * a / 2 and abs(pos[1] - y) < a / 2):
+            abs(pos[0] - x) < 3 * a / 2 and abs(pos[1] - y) < a / 2)\
+        or (abs(pos[0] - x-a) < a / 2 and abs(pos[1] - y) < 3 / 2 * a) or (
+            abs(pos[0] - x-a) < 3 * a / 2 and abs(pos[1] - y) < a / 2):
         return True
     else:
         return False
@@ -134,26 +171,51 @@ def checking_step_capability(x, y, blocks):
     return True
 
 
-def were_to_go(k, bl, display):
+def were_to_go(key, blocks, screen):
     '''
     Функция задаёт, что делает герой при нажатии на кнопки клавиатуры
     '''
-    if k == 'left' and checking_step_capability(Character.x - Character.vx, Character.y, bl) and \
-            checking_step_capability(Character.x - Character.vx, Character.y + Character.player_surface.get_width() - 2,
-                                     bl):
+    if key == 'left' and checking_step_capability(Character.x - Character.vx, Character.y, blocks) and \
+            checking_step_capability(Character.x - Character.vx, Character.y + Character.height_no_jump - 2,
+                                     blocks):
         Character.x -= Character.vx
-    if k == 'right' and \
-            checking_step_capability(Character.x + Character.vx + Character.player_surface.get_width(), Character.y,
-                                     bl) and \
-            checking_step_capability(Character.x + Character.vx + Character.player_surface.get_width(),
-                                     Character.y + Character.player_surface.get_width() - 2, bl):
+    if key == 'right' and \
+            checking_step_capability(Character.x + Character.vx + Character.width_no_jump, Character.y,
+                                     blocks) and \
+            checking_step_capability(Character.x + Character.vx + Character.width_no_jump,
+                                     Character.y + Character.height_no_jump - 2, blocks):
         Character.x += Character.vx
-    if k == 'jump':
-        Character.vy = -10
+    if key == 'jump':
+        Character.vy = -5
 
 
-def draw_p(screen):
-    screen.blit(flip(Character.player_surface, Character.orientation, False), (Character.x, Character.y))
+def draw_p(screen, image):
+    if image == 0:
+        screen.blit(flip(Character.player_surface_Static, Character.orientation, False),
+                    (Character.x, screen.get_height() // 2))
+    if image == 1:
+        screen.blit(flip(Character.player_surface_Going, Character.orientation, False),
+                    (Character.x, screen.get_height() // 2))
+    if image == 2:
+        screen.blit(flip(Character.player_surface_Eating, Character.orientation, False),
+                    (Character.x, screen.get_height() // 2))
+    if image == 3:
+        screen.blit(flip(Character.player_surface_Jumping, Character.orientation, False),
+                    (Character.x, screen.get_height() // 2))
+
+
+def draw(screen, phase_1, phase_2):
+    m = int(phase_1 / 10)
+    if phase_2 == 0:
+        if m % 2 == 1:
+            draw_p(screen, 0)
+        else:
+            draw_p(screen, 1)
+    else:
+        if m % 2 == 0:
+            draw_p(screen, 0)
+        else:
+            draw_p(screen, 2)
 
 
 if __name__ == "__main__":
