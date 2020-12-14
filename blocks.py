@@ -27,9 +27,9 @@ BLOCK_POINTS = {
 }
 
 BLOCK_HP = {
-    "bamboo": 100,
-    "bambooo": 150,
-    "diamond": 200
+    "bamboo": 50,
+    "bambooo": 75,
+    "diamond": 100
 }
 
 class Block():
