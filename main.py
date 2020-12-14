@@ -1,10 +1,10 @@
 import pygame.mixer
 from blocks import *
 
-file = 'Kusuma Orchestra - Charming.mp3'
+music_background = 'Kusuma Orchestra - Charming.mp3'
 pygame.init()
 pygame.mixer.init()
-pygame.mixer.music.load(file)
+pygame.mixer.music.load(music_background)
 pygame.mixer.music.play(-1)
 
 BACKGROUND_COLOR = (0, 170, 170)
