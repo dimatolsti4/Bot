@@ -11,7 +11,7 @@ eating_sound = pygame.mixer.Sound('nom-nom-nom_gPJiWn4(1).ogg')
 BACKGROUND_COLOR = (0, 170, 170)
 
 WINDOW_SIZE = (600, 800)
-FPS = 60
+FPS = 30
 phase_1 = 0
 phase_2 = 0
 start_damage = 0
@@ -49,7 +49,7 @@ while not finished:
                 Character.orientation = False
             if event.key == pygame.K_SPACE and Character.jump == False:
                 Character.jump = True
-                were_to_go('jump', blocks, screen)
+                were_to_go('jump', blocks, SCORE, screen)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_d:
                 Character.moving_right = False
@@ -68,6 +68,7 @@ while not finished:
                     start_damage = 1
                     phase_2 = 1
                     pos = event.pos
+
         if event.type == pygame.MOUSEBUTTONUP:
             start_damage = 0
             phase_2 = 0
@@ -75,6 +76,7 @@ while not finished:
             for block in blocks:
                 if block.use == 1:
                     block.use = 0
+
     xy = nearest_block(Character.x, screen.get_height() // 2, blocks, screen)
     for block in blocks:
         if block.use == 1 and start_damage == 1 \
@@ -90,10 +92,12 @@ while not finished:
             phase_2 = 0
             block.use = 0
             start_damage = 0
+
     if proximity_check:
         phase_2 = 1
     else:
         phase_2 = 0
+
     if Character.moving_right or Character.moving_left or Character.jump:
         if Character.moving_left:
             were_to_go('left', blocks, SCORE, screen)

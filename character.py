@@ -212,7 +212,7 @@ def were_to_go(key, blocks, SCORE, screen):
                                      Character.y + Character.height_no_jump - 2, blocks):
         Character.x += Character.vx * koef
     if key == 'jump':
-        Character.vy = -5
+        Character.vy = -10
 
 
 def draw_p(screen, image):
@@ -243,7 +243,7 @@ def draw(screen, phase_1, phase_2):
     :param phase_2: параметр, задающий ест ли сейчас персонаж (phase_2=1) или нет ((phase_2=0)
     :return: функция определяет какое именно изображение персонажа надо вывести на экран в данный момент
     '''
-    m = int(phase_1 / 10)
+    m = int(phase_1 / 5)
     if phase_2 == 0:
         if m % 2 == 1:
             draw_p(screen, 0)
