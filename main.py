@@ -85,6 +85,7 @@ while not finished:
             proximity_check = True
         if block.hp <= 0:
             SCORE = block.kill(blocks, SCORE)
+            eating_sound.set_volume(0)
             fall(blocks, screen)
             phase_2 = 0
             block.use = 0
